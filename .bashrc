@@ -127,3 +127,8 @@ reminder_cd() {
 
 alias cd=reminder_cd
 
+# welcome phrase
+export PHRASE="Welcome to your Ubuntu Shell!"
+echo $PHRASE
+
+
