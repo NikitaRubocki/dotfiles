@@ -128,7 +128,8 @@ reminder_cd() {
 alias cd=reminder_cd
 
 # welcome phrase
-export PHRASE="Welcome to your Ubuntu Shell!"
-echo $PHRASE
+export PHRASE="\033[01;32mWelcome to the Ubuntu Shell!"
+echo -e $PHRASE
+date
 
 
