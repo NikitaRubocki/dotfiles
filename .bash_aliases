@@ -9,7 +9,7 @@ alias gi='git init'
 alias gs='git status'
 alias gl='git log'
 alias gc='git clone'
-alias ga='git add'
+alias ga='git add .'
 alias gps='git push'
 alias gpl='git pull'
 alias gm='git commit -m'
@@ -21,3 +21,9 @@ alias gpom='git push origin master'
 alias goi='go install'
 alias gob='go build'
 alias gor='go run'
+
+# Bash aliases
+alias to='touch'
+
+# Misc aliases
+alias code='code .'
