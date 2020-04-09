@@ -24,6 +24,8 @@ alias gor='go run'
 
 # Bash aliases
 alias to='touch'
+alias his='history'
+alias py='python3'
 
 # Misc aliases
 alias code='code .'
