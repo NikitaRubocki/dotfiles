@@ -12,6 +12,9 @@ alias gc='git clone'
 alias ga='git add .'
 alias gps='git push'
 alias gpl='git pull'
+alias gch='git checkout'
+alias gchb='git checkout -b'
+alias gmb='git merge'
 alias gm='git commit -m'
 alias gam='git commit -am'
 alias grao='git remote add origin'
@@ -25,7 +28,10 @@ alias gor='go run'
 # Bash aliases
 alias to='touch'
 alias his='history'
+
+# Python aliases
 alias py='python3'
+alias pyserv='python3 -m http.server'
 
 # Misc aliases
 alias code='code .'
