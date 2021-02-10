@@ -14,8 +14,8 @@ alias gps='git push'
 alias gpl='git pull'
 alias gch='git checkout'
 alias gchb='git checkout -b'
-alias gmb='git merge'
-alias gm='git commit -m'
+alias gm='git merge'
+alias gcm='git commit -m'
 alias gam='git commit -am'
 alias grao='git remote add origin'
 alias gpom='git push origin master'
@@ -30,8 +30,11 @@ alias to='touch'
 alias his='history'
 
 # Python aliases
-alias py='python3'
+alias py='python3.8'
 alias pyserv='python3 -m http.server'
+
+# Ruby aliases
+alias rb='ruby'
 
 # Misc aliases
 alias code='code .'
