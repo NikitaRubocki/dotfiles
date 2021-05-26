@@ -9,7 +9,8 @@ alias gi='git init'
 alias gs='git status'
 alias gl='git log'
 alias gc='git clone'
-alias ga='git add .'
+alias ga='git add'
+alias gaa='git add .'
 alias gps='git push'
 alias gpl='git pull'
 alias gch='git checkout'
@@ -38,3 +39,4 @@ alias rb='ruby'
 
 # Misc aliases
 alias code='code .'
+alias osu="ssh -t rubockin@flip.engr.oregonstate.edu 'ssh rubockin@os1.engr.oregonstate.edu'"
