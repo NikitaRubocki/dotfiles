@@ -1,4 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# ~/.bashrc: executed by bash(1) for non-login shellsvv6
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -120,6 +120,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# start postgresql on terminal start
+if ! pgrep -x "postgres" >/dev/null; then
+    sudo pg_ctlcluster 12 main start > /dev/null 2>&1
+    # echo "postgres service started using: sudo pg_ctlcluster 12 main start"
+fi
+set PGUSER=postgres
 
 reminder_cd() {
     builtin cd "$@" && { [ ! -f .cd-reminder ] || cat .cd-reminder 1>&2; }
@@ -128,8 +134,27 @@ reminder_cd() {
 alias cd=reminder_cd
 
 # welcome phrase
-export PHRASE="\033[01;32mWelcome to the Ubuntu Shell!"
+export PHRASE="\033[01;37mWelcome to the Ubuntu Shell!"
+export WARNING="\033[01;31mAbandon all hope ye who enter here..."
+export DATE="\033[01;32m"
 echo -e $PHRASE
+echo -e $WARNING
+echo -e $DATE
 date
 
 
+source "$HOME/.cargo/env"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+[[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
+
+# nvm stuff
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pyenv
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
