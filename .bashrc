@@ -1,4 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shellsvv6
+# ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
@@ -56,15 +56,17 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+
 if [ "$color_prompt" = yes ]; then
-    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    # ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h:\[\033[38;5;166m\]\w\[\033[00m\]\$ '
-    # PS1='${debian_chroot:+($debian_chroot)}\[\033[00m\]\u@\h:\[\033[01;34m\]\w\[\033[01;32m\]\$ '
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[36m\]\u@\h:\[\033[01;34m\]\w\[\033[01;32m\]\$ '
+    # PS1='${debian_chroot:+($debian_chroot)}\[\033[95m\]\u\[\033[36m\]@\h:\[\033[01;34m\]\w\[\033[01;32m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[38;5;164m\]\u\[\033[38;5;75m\]@\h:\[\033[38;5;33m\]\w\[\033[01;32m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
+
+# fancy git prompt
+. ~/.bash_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -79,7 +81,7 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto
+    #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
@@ -105,8 +107,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
-
 source ~/.bash_aliases
 
 # enable programmable completion features (you don't need to enable
@@ -127,34 +127,14 @@ if ! pgrep -x "postgres" >/dev/null; then
 fi
 set PGUSER=postgres
 
-reminder_cd() {
-    builtin cd "$@" && { [ ! -f .cd-reminder ] || cat .cd-reminder 1>&2; }
-}
-
-alias cd=reminder_cd
-
 # welcome phrase
-export PHRASE="\033[01;37mWelcome to the Ubuntu Shell!"
-export WARNING="\033[01;31mAbandon all hope ye who enter here..."
-export DATE="\033[01;32m"
+export PHRASE="\033[38;5;225mWelcome to the Ubuntu Shell!"
+export WARNING="\033[38;5;160mAbandon all hope ye who enter here..."
+export DATE="\033[38;5;129m"
 echo -e $PHRASE
 echo -e $WARNING
 echo -e $DATE
 date
 
-
-source "$HOME/.cargo/env"
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-[[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
-
-# nvm stuff
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# pyenv
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"
