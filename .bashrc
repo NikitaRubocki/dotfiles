@@ -68,6 +68,13 @@ unset color_prompt force_color_prompt
 # fancy git prompt
 . ~/.bash_prompt
 
+# add .cd-reminder to repo with message and this function will print it
+# whenever you enter the repo (see example in dotfiles)
+reminder_cd() {
+    builtin cd "$@" && { [ ! -f .cd-reminder ] || cat .cd-reminder 1>&2; }
+}
+alias cd=reminder_cd
+
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
