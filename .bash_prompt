@@ -20,11 +20,14 @@
 #   Based on work by woods
 #
 #   https://gist.github.com/31967
+#
+# ADDITION:
+# This script also adds the pipenv name to prompt if you're in a pipenv
 
-# The various escape codes that we can use to color our prompt.
-
+# The various escape codes that we can use to color our prompt
 RED="\[\033[38;5;160m\]"
 YELLOW="\[\033[38;5;226m\]"
+DARK_YELLOW="\[\033[38;5;178m\]"
 GREEN="\[\033[01;32m\]"
 ORANGE="\[\033[38;5;208m\]"
 MAGENTA="\[\033[38;5;164m\]"
@@ -32,17 +35,17 @@ BLUE="\[\033[38;5;33m\]"
 BLUE_GREY="\[\033[38;5;75m\]"
 
 
-# Detect whether the current directory is a git repository.
+# Detect whether the current directory is a git repository
 function is_git_repository {
   git branch > /dev/null 2>&1
 }
 
-# Determine the branch/state information for this git repository.
+# Determine the branch/state information for this git repository
 function set_git_branch {
-  # Capture the output of the "git status" command.
+  # Capture the output of the "git status" command
   git_status="$(git status 2> /dev/null)"
 
-  # Set color based on clean/staged/dirty.
+  # Set color based on clean/staged/dirty
   if [[ ${git_status} =~ "working tree clean" ]]; then
     state="${ORANGE}"
   elif [[ ${git_status} =~ "Changes to be committed" ]]; then
@@ -51,7 +54,7 @@ function set_git_branch {
     state="${RED}-"
   fi
 
-  # Set arrow icon based on status against remote.
+  # Set arrow icon based on status against remote
   remote_pattern="Your branch is (.*) of"
   if [[ ${git_status} =~ ${remote_pattern} ]]; then
     if [[ ${BASH_REMATCH[1]} == "ahead" ]]; then
@@ -67,42 +70,48 @@ function set_git_branch {
     remote="↕"
   fi
 
-  # Get the name of the branch.
+  # Get the name of the branch
   branch_pattern="^(# )?On branch ([^${IFS}]*)"
   if [[ ${git_status} =~ ${branch_pattern} ]]; then
     branch=${BASH_REMATCH[2]}
   fi
 
-  # Set the final branch string.
+  # Set the final branch string
   BRANCH=" ${state}${remote}[${branch}]"
 }
 
-# Return the prompt symbol to use, colorized based on the return value of the
-# previous command.
-# function set_prompt_symbol () {
-#   if test $1 -eq 0 ; then
-#       PROMPT_SYMBOL="\$"
-#   else
-#       PROMPT_SYMBOL="${LIGHT_RED}\$${COLOR_NONE}"
-#   fi
-# }
+# Parse pipenv string into readable name of the actual directory
+function get_pipenv_name {
+  if [ -z $VIRTUAL_ENV ]; then
+    PIPENV_NAME=""
+  else
+    bkpIFS="$IFS"
+    IFS='/-' read -r -a array <<<$VIRTUAL_ENV
+    PIPENV_NAME="${DARK_YELLOW}(${array[6]}) "
+    IFS="$bkpIFS"
+  fi
+}
 
-# Set the full bash prompt.
+# Set the full bash prompt
 function set_bash_prompt () {
-  # Set the PROMPT_SYMBOL variable. We do this first so we don't lose the
-  # return value of the last command.
-  PS1_START="${debian_chroot:+($debian_chroot)}${MAGENTA}\u${BLUE_GREY}@\h:${BLUE}\w"
+  # Set PROMPT variables
+  PS1_START="${debian_chroot:+($debian_chroot)}"
+  # USER_INFO="${MAGENTA}\u${BLUE_GREY}@\h:${BLUE}\w"
+  USER_INFO="${MAGENTA}\u@\h:${BLUE_GREY}\w"
   PROMPT_SYM="${GREEN}\$"
 
-  # Set the BRANCH variable.
+  # Set the BRANCH variable
   if is_git_repository ; then
     set_git_branch
   else
     BRANCH=''
   fi
 
+  # Set PIPENV_NAME variable
+  get_pipenv_name
+
   # Set the bash prompt variable.
-  PS1="${PS1_START}${BRANCH}${PROMPT_SYM} "
+  PS1="${PS1_START}${PIPENV_NAME}${USER_INFO}${BRANCH}${PROMPT_SYM} "
 }
 
 # Tell bash to execute this function just before displaying its prompt.

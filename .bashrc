@@ -134,7 +134,7 @@ if ! pgrep -x "postgres" >/dev/null; then
 fi
 set PGUSER=postgres
 
-# welcome phrase
+# Welcome phrase
 export PHRASE="\033[38;5;225mWelcome to the Ubuntu Shell!"
 export WARNING="\033[38;5;160mAbandon all hope ye who enter here..."
 export DATE="\033[38;5;129m"
@@ -142,6 +142,10 @@ echo -e $PHRASE
 echo -e $WARNING
 echo -e $DATE
 date
+
+
+# Add pipenv to PATH
+export PATH="$PATH:$HOME/.local/bin"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
